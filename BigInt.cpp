@@ -14,8 +14,6 @@ BigInt::BigInt(const std::string& init) {
         pos = pos >= 9 ? pos - 9 : start;
     }
 
-    //count = pos >= 9 ? 9 : pos - start;
-
     this->nums.push_back(std::stoi(init.substr(pos, count)));
 }
 
@@ -71,12 +69,6 @@ std::ostream& operator<<(std::ostream& os, const BigInt& bigInt ) {
 
         os << bigInt.nums[i];
     }
-
-    /*os << std::endl;
-
-    for (int i = bigInt.nums.size() - 1; i >= 0; i--) {
-        os << bigInt.numbersOfDigits(bigInt.nums[i]) << " ";
-    }*/
 
     return os;
 }

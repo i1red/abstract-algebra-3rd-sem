@@ -14,7 +14,6 @@ public:
     BigInt operator-(const BigInt&);
     bool operator>(const BigInt&);
     bool operator<(const BigInt&);
-    //BigInt getSubtract() { return }
     friend std::ostream& operator<<(std::ostream& os, const BigInt& bigInt );
 private:
     BigInt add(const BigInt&);
