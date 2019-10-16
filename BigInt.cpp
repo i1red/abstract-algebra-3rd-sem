@@ -4,8 +4,21 @@
 
 #include "BigInt.h"
 
-BigInt::BigInt(std::string init = "0") {
+BigInt::BigInt(const std::string& init) {
+    this->positive = init[0] != '-';
+    int start = this->positive ? 0 : 1;
 
+    int pos = init.size() - start > 9 ? (int)init.size() - 9 : start;
+    int count = pos == start ? (int)init.size() - start : 9;
+
+    while (pos > start)
+    {
+        this->nums.push_back(std::stoi(init.substr(pos, count)));
+        count = pos >= 9 ? 9 : pos - start;
+        pos = pos >= 9 ? pos - 9 : start;
+    }
+
+    this->nums.push_back(std::stoi(init.substr(pos, count)));
 }
 
 BigInt BigInt::operator+(const BigInt& other) {

@@ -10,7 +10,7 @@ class BigInt {
     std::vector<int> nums;
     bool positive;
 public:
-    explicit BigInt(std::string);
+    explicit BigInt(const std::string& init = "0");
     BigInt operator+(const BigInt&);
     BigInt operator-(const BigInt&);
     bool operator>(const BigInt&);
