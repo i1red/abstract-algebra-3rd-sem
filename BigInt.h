@@ -5,7 +5,6 @@
 #include <vector>
 #include <string>
 
-
 class BigInt {
     std::vector<int> nums;
     bool positive;
@@ -14,9 +13,13 @@ public:
     BigInt operator+(const BigInt&);
     BigInt operator-(const BigInt&);
     bool operator>(const BigInt&);
+    bool operator<(const BigInt&);
+    //BigInt getSubtract() { return }
+    friend std::ostream& operator<<(std::ostream& os, const BigInt& bigInt );
 private:
     BigInt add(const BigInt&);
     BigInt subtract(const BigInt&);
+    int numbersOfDigits(int number) const;
 };
 
 std::ostream& operator<<(std::ostream&, const BigInt&);
