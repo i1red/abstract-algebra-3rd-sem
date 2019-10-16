@@ -4,7 +4,7 @@
 
 #include "BigInt.h"
 
-BigInt::BigInt(const char* strInit="0") {
+BigInt::BigInt(std::string init = "0") {
 
 }
 

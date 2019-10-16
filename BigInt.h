@@ -3,13 +3,14 @@
 
 #include <ostream>
 #include <vector>
+#include <string>
 
 
 class BigInt {
     std::vector<int> nums;
     bool positive;
 public:
-    explicit BigInt(const char*);
+    explicit BigInt(std::string);
     BigInt operator+(const BigInt&);
     BigInt operator-(const BigInt&);
     bool operator>(const BigInt&);
