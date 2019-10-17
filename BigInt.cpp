@@ -10,8 +10,8 @@ BigInt::BigInt(const std::string& init) {
     while (pos > start)
     {
         this->nums.push_back(std::stoi(init.substr(pos, count)));
-        count = pos >= 9 ? 9 : pos - start;
-        pos = pos >= 9 ? pos - 9 : start;
+        count = pos >= 9 + start ? 9 : pos - start;
+        pos = pos >= 9 + start ? pos - 9 : start;
     }
 
     this->nums.push_back(std::stoi(init.substr(pos, count)));

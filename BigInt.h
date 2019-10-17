@@ -21,7 +21,5 @@ private:
     int numbersOfDigits(int number) const;
 };
 
-std::ostream& operator<<(std::ostream&, const BigInt&);
-
 
 #endif //ABSTRACT_ALGEBRA_BIGINT_H

@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-    string str1 = "-123456789000000000000000123450000678900000000", str2 = "999999999";
+    string str1 = "12345678", str2 = "999999999";
 
 
 
