@@ -18,19 +18,19 @@ BigInt::BigInt(const std::string& init) {
 }
 
 BigInt BigInt::operator+(const BigInt& other) {
-    return BigInt(nullptr);
+    return BigInt();
 }
 
 BigInt BigInt::operator-(const BigInt& other) {
-    return BigInt(nullptr);
+    return BigInt();
 }
 
 BigInt BigInt::add(const BigInt &other) {
-    return BigInt(nullptr);
+    return BigInt();
 }
 
 BigInt BigInt::subtract(const BigInt &other) {
-
+    return BigInt();
 }
 
 bool BigInt::operator>(const BigInt &other) {
