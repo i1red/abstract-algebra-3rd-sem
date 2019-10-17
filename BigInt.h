@@ -7,7 +7,7 @@
 
 class BigInt {
     std::vector<int> nums;
-    bool positive;
+    bool nonNegative;
 public:
     explicit BigInt(const std::string& init = "0");
     BigInt operator+(const BigInt&);
@@ -18,6 +18,7 @@ public:
 private:
     BigInt add(const BigInt&);
     BigInt subtract(const BigInt&);
+    int absCompareTo(const BigInt&);
     int numbersOfDigits(int number) const;
 };
 
