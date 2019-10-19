@@ -21,11 +21,10 @@ private:
     int absCompareTo(const BigInt&);
     BigInt add(const BigInt&);
     BigInt subtract(const BigInt&);
+    int absCompareTo(const BigInt&);
     int numbersOfDigits(int number) const;
     void removeLeadingZeros();
 };
-
-std::ostream& operator<<(std::ostream&, const BigInt&);
 
 
 #endif //ABSTRACT_ALGEBRA_BIGINT_H

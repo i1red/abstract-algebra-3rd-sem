@@ -29,7 +29,7 @@ BigInt BigInt::operator-(const BigInt& other) {
     return res;
 }
 
-//adds two positive integers, this >= other
+//adds two positive integers, other <= this
 BigInt BigInt::add(const BigInt &other) {
     auto res = BigInt();
 
@@ -69,6 +69,7 @@ BigInt BigInt::subtract(const BigInt &other) {
         res.nums.push_back(this->nums[i] - temp - (i < other.nums.size() ? other.nums[i] : 0));
 
         temp = res.nums[i] < 0;
+      
         if (temp)
             res.nums[i] += BASE;
     }
