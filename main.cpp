@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-    string str1 = "111111111111111111", str2 = "11111111111111119";
+    string str1 = "111111111111111111", str2 = "111111111111111";
 
     auto test1 = BigInt(str1);
     auto test2 = BigInt(str2);
