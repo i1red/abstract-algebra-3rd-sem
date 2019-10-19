@@ -8,12 +8,8 @@
 
 class BigInt {
     std::vector<int> nums;
-<<<<<<< Updated upstream
-    bool positive;
-=======
     bool nonNegative;
     const int BASE = int(pow(10, 9));
->>>>>>> Stashed changes
 public:
     explicit BigInt(const std::string& init = "0");
     BigInt operator+(const BigInt&);
@@ -22,6 +18,7 @@ public:
     bool operator<(const BigInt&);
     friend std::ostream& operator<<(std::ostream& os, const BigInt& bigInt );
 private:
+    int absCompareTo(const BigInt&);
     BigInt add(const BigInt&);
     BigInt subtract(const BigInt&);
     int numbersOfDigits(int number) const;

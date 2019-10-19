@@ -1,8 +1,8 @@
 #include "BigInt.h"
 
 BigInt::BigInt(const std::string& init) {
-    this->positive = init[0] != '-';
-    int start = this->positive ? 0 : 1;
+    this->nonNegative = init[0] != '-';
+    int start = this->nonNegative ? 0 : 1;
 
     int pos = init.size() - start > 9 ? (int)init.size() - 9 : start;
     int count = pos == start ? (int)init.size() - start : 9;
@@ -10,29 +10,14 @@ BigInt::BigInt(const std::string& init) {
     while (pos > start)
     {
         this->nums.push_back(std::stoi(init.substr(pos, count)));
-        count = pos >= 9 ? 9 : pos - start;
-        pos = pos >= 9 ? pos - 9 : start;
+        count = pos >= 9 + start ? 9 : pos - start;
+        pos = pos >= 9 + start ? pos - 9 : start;
     }
 
     this->nums.push_back(std::stoi(init.substr(pos, count)));
 }
 
 BigInt BigInt::operator+(const BigInt& other) {
-<<<<<<< Updated upstream
-    return BigInt(nullptr);
-}
-
-BigInt BigInt::operator-(const BigInt& other) {
-    return BigInt(nullptr);
-}
-
-BigInt BigInt::add(const BigInt &other) {
-    return BigInt(nullptr);
-}
-
-BigInt BigInt::subtract(const BigInt &other) {
-
-=======
     auto res = this->add(other);
 
     return res;
@@ -91,7 +76,6 @@ BigInt BigInt::subtract(const BigInt &other) {
     res.removeLeadingZeros();
 
     return res;
->>>>>>> Stashed changes
 }
 
 bool BigInt::operator>(const BigInt &other) {
@@ -112,9 +96,7 @@ bool BigInt::operator>(const BigInt &other) {
 }
 
 bool BigInt::operator<(const BigInt &other) {
-<<<<<<< Updated upstream
-    return false;
-=======
+
     if (!this->nonNegative && other.nonNegative)
         return true;
 
@@ -127,8 +109,6 @@ bool BigInt::operator<(const BigInt &other) {
         return true;
 
     return absCompRes == -1;
-
->>>>>>> Stashed changes
 }
 
 int BigInt::numbersOfDigits(int number) const {
@@ -142,7 +122,7 @@ int BigInt::numbersOfDigits(int number) const {
 
 
 std::ostream& operator<<(std::ostream& os, const BigInt& bigInt ) {
-    if (!bigInt.positive) {
+    if (!bigInt.nonNegative) {
         os << '-';
     }
 
@@ -162,8 +142,6 @@ std::ostream& operator<<(std::ostream& os, const BigInt& bigInt ) {
 
     return os;
 }
-<<<<<<< Updated upstream
-=======
 
 int BigInt::absCompareTo(const BigInt &other) { // (-1 ~ <)  (1 ~ >) (0 ~ ==)
     if (this->nums.size() < other.nums.size())
@@ -192,8 +170,3 @@ void BigInt::removeLeadingZeros() {
         this->nonNegative = true;
     }
 }
-
-
-
-
->>>>>>> Stashed changes
