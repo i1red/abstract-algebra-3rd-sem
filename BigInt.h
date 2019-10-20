@@ -9,14 +9,16 @@
 class BigInt {
     std::vector<int> nums;
     bool nonNegative;
-    const int BASE = int(pow(10, 9));
+    int BASE = int(pow(10, 9));
+    
 public:
     explicit BigInt(const std::string& init = "0");
-    BigInt operator+(const BigInt&);
-    BigInt operator-(const BigInt&);
+    BigInt operator+(BigInt&);
+    BigInt operator-(BigInt&);
     bool operator>(const BigInt&);
     bool operator<(const BigInt&);
-    friend std::ostream& operator<<(std::ostream& os, const BigInt& bigInt );
+    friend std::ostream& operator<<(std::ostream& os, const BigInt& bigInt);
+
 private:
     int absCompareTo(const BigInt&);
     BigInt add(const BigInt&);

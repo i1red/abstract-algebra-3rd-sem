@@ -17,14 +17,86 @@ BigInt::BigInt(const std::string& init) {
     this->nums.push_back(std::stoi(init.substr(pos, count)));
 }
 
-BigInt BigInt::operator+(const BigInt& other) {
-    auto res = this->add(other);
+BigInt BigInt::operator+(BigInt& other) {
+    auto res = BigInt();
 
-    return res;
+    res.nums.clear();
+
+    if (this->nonNegative) {
+        if (other.nonNegative) {
+            res = this->add(other);
+        }
+
+        else {
+            if (this->absCompareTo(other) == -1) {
+                res = other.subtract(*this);
+                res.nonNegative = false;
+            }
+
+            else {
+                res = this->subtract(other);
+            }
+        }
+
+        return res;
+    }
+
+    else {
+        if (other.nonNegative) {
+            if (this->absCompareTo(other) == 1) {
+                res = this->subtract(other);
+                res.nonNegative = false;
+            }
+
+            else {
+                res = other.subtract(*this);
+            }
+        }
+
+        else {
+            res = this->add(other);
+            res.nonNegative = false;
+        }
+
+        return res;
+    }
 }
 
-BigInt BigInt::operator-(const BigInt& other) {
-    auto res = this->subtract(other);
+BigInt BigInt::operator-(BigInt& other) {
+    auto res = BigInt();
+
+    res.nums.clear();
+
+    if (this->nonNegative && other.nonNegative) {
+        if (this->absCompareTo(other) == -1) {
+            res = other.subtract(*this);
+            res.nonNegative = false;
+        }
+
+        else {
+            res = this->subtract(other);
+        }
+    }
+
+    else if (this->nonNegative && !other.nonNegative) {
+        res = this->add(other);
+    }
+
+    else if (!this->nonNegative && other.nonNegative) {
+        res = this->add(other);
+        res.nonNegative = false;
+    }
+
+    else {
+        if (this->absCompareTo(other) == 1) {
+            res = this->subtract(other);
+            res.nonNegative = false;
+        }
+
+        else {
+            res = other.subtract(*this);
+        }
+    }
 
     return res;
 }
@@ -65,7 +137,7 @@ BigInt BigInt::subtract(const BigInt &other) {
 
     int temp = 0;
 
-    for (int i = 0; i < other.nums.size() || temp != 0; ++i) {
+    for (int i = 0; i < this->nums.size() || temp != 0; ++i) {
         res.nums.push_back(this->nums[i] - temp - (i < other.nums.size() ? other.nums[i] : 0));
 
         temp = res.nums[i] < 0;
