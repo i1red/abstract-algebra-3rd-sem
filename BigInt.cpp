@@ -102,14 +102,8 @@ BigInt BigInt::operator-(BigInt& other) {
 }
 
 //adds two positive integers, other <= this
-BigInt BigInt::add(BigInt &other) {
+BigInt BigInt::add(const BigInt &other) {
     auto res = BigInt();
-    bool isSwapped = false;
-
-    if (this->nums.size() < other.nums.size()) {
-        std::swap(*this, other);
-        isSwapped = true;
-    }
 
     res.nums.clear();
 
@@ -131,10 +125,6 @@ BigInt BigInt::add(BigInt &other) {
 
     if(temp != 0)
         res.nums.push_back(temp);
-
-    if (isSwapped) {
-        std::swap(*this,other);
-    }
 
     return res;
 }
@@ -214,13 +204,7 @@ std::ostream& operator<<(std::ostream& os, const BigInt& bigInt ) {
     for (int i = int(bigInt.nums.size()) - 2; i >= 0; i--) {
         //os << bigInt.nums[i] << " ";
 
-        if (bigInt.numbersOfDigits(bigInt.nums[i]) < 9) {
-            for (int j = 0; j < 9 - bigInt.numbersOfDigits(bigInt.nums[i]); j++) {
-                os << '0';
-            }
-        }
-
-        os << bigInt.nums[i];
+        os << std::setfill('0') << std::setw(9) << bigInt.nums[i];
     }
 
     return os;
@@ -254,28 +238,108 @@ void BigInt::removeLeadingZeros() {
     }
 }
 
-BigInt BigInt::multiplication(const BigInt &other) {
-    auto res  = BigInt();
+BigInt BigInt::mod(BigInt& other) {
+    bool posResSign = true;
+    BigInt self = *this, div = other;
 
-    res.nums.clear();
-    res.nums.resize(this->nums.size() + other.nums.size());
-
-    for (int i = 0; i < this->nums.size(); ++i) {
-        int carry = 0;
-
-        for (size_t j = 0; j < other.nums.size() || carry != 0; ++j) {
-            long long cur = res.nums[i + j] +
-                            this->nums[i] * 1LL * (j < other.nums.size() ? other.nums[j] : 0) + carry;
-            res.nums[i + j] = static_cast<int>(cur % BASE);
-            carry = static_cast<int>(cur / BASE);
-        }
+    if (!div.nonNegative) {
+        posResSign = false;
+        div.nonNegative = true;
+        self.nonNegative = !self.nonNegative;
     }
 
-    res.nonNegative = this->nonNegative == other.nonNegative;
-    res.removeLeadingZeros();
+    if (!self.nonNegative) {
+        self = self.eqPositive(div);
+    }
+
+    if (self < div) {
+        return self;
+    }
+
+    BigInt res = self.mod_(div);
+    res.nonNegative = posResSign;
+
     return res;
 }
 
-BigInt BigInt::operator*(BigInt &other) {
-    return this->multiplication(other);
+BigInt BigInt::mod_(BigInt& other) {
+    BigInt res = *this, tmp = other.multToFit(res), tmpRes = res - tmp;
+
+    while (!(res < tmp)) {
+        res = tmpRes;
+
+        if (res < tmp) {
+            if (other == tmp) {
+                break;
+            }
+            tmp = other.multToFit(res);
+        }
+
+        tmpRes = res - tmp;
+    }
+
+    return res;
+}
+
+BigInt BigInt::eqPositive(BigInt &other) {
+    BigInt res = *this, tmp = other.multToFit(res);
+
+    while (res < BigInt("0")) {
+        res = res + tmp;
+    }
+
+    return res;
+}
+
+std::string BigInt::toString() const{
+    std::stringstream numbers;
+    numbers << this->nums.back();
+
+    for (auto i = (int)this->nums.size() - 2; i >= 0; --i) {
+        numbers << std::setfill('0') << std::setw(9) << this->nums[i];
+    }
+
+    return numbers.str();
+}
+
+BigInt BigInt::fillWithZeros(size_t zeroCount) {
+    std::stringstream zeros;
+    zeros << std::setfill('0') << std::setw(zeroCount);
+    return BigInt(this->toString() + zeros.str());
+}
+
+BigInt BigInt::multToFit(const BigInt& other) {
+    std::string thisStr = this->toString(), otherStr = other.toString();
+    size_t zeroCount = otherStr.size() - thisStr.size();
+
+    for (size_t i = 0; i < thisStr.size(); ++i) {
+        if (thisStr[i] > otherStr[i]) {
+            zeroCount -= 1;
+            break;
+        }
+        else if (thisStr[i] < otherStr[i]) {
+            break;
+        }
+    }
+
+    std::stringstream zeros;
+    zeros << std::setfill('0') << std::setw(zeroCount) << "";
+
+    return BigInt(thisStr + zeros.str());
+}
+
+size_t BigInt::length() const {
+    return (this->nums.size() - 1) * 9 + integerLength(this->nums.back());
+}
+
+size_t BigInt::integerLength(int number){
+    return (size_t)log10(number) + 1;
+}
+
+size_t BigInt::firstDigit(int number) {
+    return number / (pow(10, integerLength(number)));
+}
+
+bool BigInt::operator==(const BigInt& other) {
+    return this->absCompareTo(other) == 0 && this->nonNegative == other.nonNegative;
 }

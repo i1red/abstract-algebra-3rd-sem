@@ -5,7 +5,8 @@
 #include <vector>
 #include <string>
 #include <cmath>
-#include <algorithm>
+#include <iomanip>
+
 
 class BigInt {
     std::vector<int> nums;
@@ -16,16 +17,24 @@ public:
     explicit BigInt(const std::string& init = "0");
     BigInt operator+(BigInt&);
     BigInt operator-(BigInt&);
-    BigInt operator*(BigInt&);
+    BigInt mod(BigInt&);
     bool operator>(const BigInt&);
     bool operator<(const BigInt&);
+    bool operator==(const BigInt&);
     friend std::ostream& operator<<(std::ostream& os, const BigInt& bigInt);
-
+    std::string toString() const ;
 private:
+
     int absCompareTo(const BigInt&);
-    BigInt add(BigInt&);
+    BigInt fillWithZeros(size_t);
+    BigInt multToFit(const BigInt&);
+    size_t length() const;
+    static size_t integerLength(int);
+    static size_t firstDigit(int);
+    BigInt add(const BigInt&);
     BigInt subtract(const BigInt&);
-    BigInt multiplication(const BigInt&);
+    BigInt mod_(BigInt&);
+    BigInt eqPositive(BigInt&);
     int numbersOfDigits(int number) const;
     void removeLeadingZeros();
 };
