@@ -11,31 +11,29 @@
 class BigInt {
     std::vector<int> nums;
     bool nonNegative;
-    int BASE = int(pow(10, 9));
+    static const int BASE;
     
 public:
     explicit BigInt(const std::string& init = "0");
-    BigInt operator+(BigInt&);
-    BigInt operator-(BigInt&);
+    bool operator==(const BigInt&) const;
+    bool operator>(const BigInt&) const;
+    bool operator<(const BigInt&) const;
+    bool operator>=(const BigInt&) const;
+    bool operator<=(const BigInt&) const;
+    BigInt operator+(const BigInt&);
+    BigInt operator-(const BigInt&);
     BigInt mod(BigInt&);
-    bool operator>(const BigInt&);
-    bool operator<(const BigInt&);
-    bool operator==(const BigInt&);
     friend std::ostream& operator<<(std::ostream& os, const BigInt& bigInt);
-    std::string toString() const ;
+
 private:
 
-    int absCompareTo(const BigInt&);
-    BigInt fillWithZeros(size_t);
-    BigInt multToFit(const BigInt&);
-    size_t length() const;
-    static size_t integerLength(int);
-    static size_t firstDigit(int);
-    BigInt add(const BigInt&);
-    BigInt subtract(const BigInt&);
-    BigInt mod_(BigInt&);
-    BigInt eqPositive(BigInt&);
-    int numbersOfDigits(int number) const;
+    BigInt add(const BigInt&) const;
+    BigInt subtract(const BigInt&) const;
+    BigInt modPositive(const BigInt&) const;
+    BigInt fillToFit(const BigInt&) const;
+    BigInt eqPositive(const BigInt&) const;
+    int absCompareTo(const BigInt&) const;
+    std::string absToString() const;
     void removeLeadingZeros();
 };
 
