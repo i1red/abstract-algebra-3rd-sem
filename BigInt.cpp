@@ -102,8 +102,14 @@ BigInt BigInt::operator-(BigInt& other) {
 }
 
 //adds two positive integers, other <= this
-BigInt BigInt::add(const BigInt &other) {
+BigInt BigInt::add(BigInt &other) {
     auto res = BigInt();
+    bool isSwapped = false;
+
+    if (this->nums.size() < other.nums.size()) {
+        std::swap(*this, other);
+        isSwapped = true;
+    }
 
     res.nums.clear();
 
@@ -125,6 +131,10 @@ BigInt BigInt::add(const BigInt &other) {
 
     if(temp != 0)
         res.nums.push_back(temp);
+
+    if (isSwapped) {
+        std::swap(*this,other);
+    }
 
     return res;
 }
@@ -242,4 +252,30 @@ void BigInt::removeLeadingZeros() {
     if (this->nums.size() == 1 && this->nums[0] == 0) {
         this->nonNegative = true;
     }
+}
+
+BigInt BigInt::multiplication(const BigInt &other) {
+    auto res  = BigInt();
+
+    res.nums.clear();
+    res.nums.resize(this->nums.size() + other.nums.size());
+
+    for (int i = 0; i < this->nums.size(); ++i) {
+        int carry = 0;
+
+        for (size_t j = 0; j < other.nums.size() || carry != 0; ++j) {
+            long long cur = res.nums[i + j] +
+                            this->nums[i] * 1LL * (j < other.nums.size() ? other.nums[j] : 0) + carry;
+            res.nums[i + j] = static_cast<int>(cur % BASE);
+            carry = static_cast<int>(cur / BASE);
+        }
+    }
+
+    res.nonNegative = this->nonNegative == other.nonNegative;
+    res.removeLeadingZeros();
+    return res;
+}
+
+BigInt BigInt::operator*(BigInt &other) {
+    return this->multiplication(other);
 }
