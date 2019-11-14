@@ -3,4 +3,4 @@ project(abstract_algebra)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(abstract_algebra main.cpp BigInt.cpp BigInt.h)
+add_executable(abstract_algebra main.cpp BigInt.cpp BigInt.h ModArithmetic.cpp ModArithmetic.h)
