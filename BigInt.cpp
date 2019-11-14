@@ -6,10 +6,10 @@ const int BigInt::BASE = (int)pow(10, 9);
 
 BigInt::BigInt(const std::string& init) {
     this->nonNegative = init[0] != '-';
-    int start = this->nonNegative ? 0 : 1;
+    size_t start = this->nonNegative ? 0 : 1;
 
-    int pos = init.size() - start > 9 ? (int)init.size() - 9 : start;
-    int count = pos == start ? (int)init.size() - start : 9;
+    size_t pos = init.size() - start > 9 ? (int)init.size() - 9 : start;
+    size_t count = pos == start ? (int)init.size() - start : 9;
 
     while (pos > start)
     {
@@ -257,7 +257,7 @@ BigInt BigInt::multiplication(const BigInt &other) const {
     res.nums.clear();
     res.nums.resize(this->nums.size() + other.nums.size());
 
-    for (int i = 0; i < this->nums.size(); ++i) {
+    for (size_t i = 0; i < this->nums.size(); ++i) {
         int carry = 0;
 
         for (size_t j = 0; j < other.nums.size() || carry != 0; ++j) {
@@ -296,7 +296,7 @@ BigInt BigInt::modPositive(const BigInt& other) const{
 
 BigInt BigInt::fillToFit(const BigInt& other) const {
     std::string thisStr = this->absToString(), otherStr = other.absToString();
-    size_t zeroCount = otherStr.size() - thisStr.size();
+    int zeroCount = (int)otherStr.size() - (int)thisStr.size();
 
     for (size_t i = 0; i < thisStr.size(); ++i) {
         if (thisStr[i] > otherStr[i]) {
