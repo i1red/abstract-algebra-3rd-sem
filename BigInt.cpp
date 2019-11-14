@@ -157,28 +157,45 @@ BigInt BigInt::operator-(const BigInt& other) {
 }
 
 
-BigInt BigInt::mod(BigInt& other) {
-    bool posResSign = true;
-    BigInt self = *this, div = other;
+BigInt BigInt::operator*(const BigInt &other) {
+    return this->multiplication(other);
+}
+
+
+BigInt BigInt::mod(const BigInt& other) {
+    BigInt res = *this, div = other;
 
     if (!div.nonNegative) {
-        posResSign = false;
         div.nonNegative = true;
-        self.nonNegative = !self.nonNegative;
+        res.nonNegative = !res.nonNegative;
     }
 
-    if (!self.nonNegative) {
-        self = self.eqPositive(div);
+    if (!res.nonNegative) {
+        res = res.eqPositive(div);
     }
 
-    if (self < div) {
-        return self;
+    if (res >= div) {
+        res = res.modPositive(div);
     }
 
-    BigInt res = self.modPositive(div);
-    res.nonNegative = res.nums.back() == 0 ? true : posResSign;
+    res.nonNegative = res.nums.back() == 0 ? true : other.nonNegative;
 
     return res;
+}
+
+
+std::ostream& operator<<(std::ostream& os, const BigInt& bigInt ) {
+    if (!bigInt.nonNegative) {
+        os << '-';
+    }
+
+    os << bigInt.nums[bigInt.nums.size() - 1];
+
+    for (int i = int(bigInt.nums.size()) - 2; i >= 0; i--) {
+        os << std::setfill('0') << std::setw(9) << bigInt.nums[i];
+    }
+
+    return os;
 }
 
 
@@ -234,18 +251,26 @@ BigInt BigInt::subtract(const BigInt& other) const{
 }
 
 
-std::ostream& operator<<(std::ostream& os, const BigInt& bigInt ) {
-    if (!bigInt.nonNegative) {
-        os << '-';
+BigInt BigInt::multiplication(const BigInt &other) const {
+    auto res  = BigInt();
+
+    res.nums.clear();
+    res.nums.resize(this->nums.size() + other.nums.size());
+
+    for (int i = 0; i < this->nums.size(); ++i) {
+        int carry = 0;
+
+        for (size_t j = 0; j < other.nums.size() || carry != 0; ++j) {
+            long long cur = res.nums[i + j] +
+                            this->nums[i] * 1LL * (j < other.nums.size() ? other.nums[j] : 0) + carry;
+            res.nums[i + j] = static_cast<int>(cur % BASE);
+            carry = static_cast<int>(cur / BASE);
+        }
     }
 
-    os << bigInt.nums[bigInt.nums.size() - 1];
-
-    for (int i = int(bigInt.nums.size()) - 2; i >= 0; i--) {
-        os << std::setfill('0') << std::setw(9) << bigInt.nums[i];
-    }
-
-    return os;
+    res.nonNegative = this->nonNegative == other.nonNegative;
+    res.removeLeadingZeros();
+    return res;
 }
 
 

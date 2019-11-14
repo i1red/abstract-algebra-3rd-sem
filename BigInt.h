@@ -22,13 +22,14 @@ public:
     bool operator<=(const BigInt&) const;
     BigInt operator+(const BigInt&);
     BigInt operator-(const BigInt&);
-    BigInt mod(BigInt&);
+    BigInt operator*(const BigInt&);
+    BigInt mod(const BigInt&);
     friend std::ostream& operator<<(std::ostream& os, const BigInt& bigInt);
 
 private:
-
     BigInt add(const BigInt&) const;
     BigInt subtract(const BigInt&) const;
+    BigInt multiplication(const BigInt&) const;
     BigInt modPositive(const BigInt&) const;
     BigInt fillToFit(const BigInt&) const;
     BigInt eqPositive(const BigInt&) const;
