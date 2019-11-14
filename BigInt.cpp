@@ -72,7 +72,7 @@ bool BigInt::operator<=(const BigInt& other) const{
 }
 
 
-BigInt BigInt::operator+(const BigInt& other) {
+BigInt BigInt::operator+(const BigInt& other) const {
     auto res = BigInt();
 
     res.nums.clear();
@@ -117,7 +117,7 @@ BigInt BigInt::operator+(const BigInt& other) {
     }
 }
 
-BigInt BigInt::operator-(const BigInt& other) {
+BigInt BigInt::operator-(const BigInt& other) const {
     auto res = BigInt();
 
     res.nums.clear();
@@ -157,12 +157,12 @@ BigInt BigInt::operator-(const BigInt& other) {
 }
 
 
-BigInt BigInt::operator*(const BigInt &other) {
+BigInt BigInt::operator*(const BigInt &other) const {
     return this->multiplication(other);
 }
 
 
-BigInt BigInt::mod(const BigInt& other) {
+BigInt BigInt::mod(const BigInt& other) const {
     BigInt res = *this, div = other;
 
     if (!div.nonNegative) {
@@ -315,7 +315,7 @@ BigInt BigInt::fillToFit(const BigInt& other) const {
 }
 
 
-BigInt BigInt::eqPositive(const BigInt &other) const{
+BigInt BigInt::eqPositive(const BigInt &other) const {
     BigInt res = *this, tmp = other.fillToFit(res);
 
     while (!res.nonNegative) {
@@ -326,7 +326,7 @@ BigInt BigInt::eqPositive(const BigInt &other) const{
 }
 
 
-int BigInt::absCompareTo(const BigInt &other) const{ // (-1 ~ <)  (1 ~ >) (0 ~ ==)
+int BigInt::absCompareTo(const BigInt &other) const { // (-1 ~ <)  (1 ~ >) (0 ~ ==)
     if (this->nums.size() < other.nums.size())
         return -1;
 
@@ -347,7 +347,7 @@ int BigInt::absCompareTo(const BigInt &other) const{ // (-1 ~ <)  (1 ~ >) (0 ~ =
 }
 
 
-std::string BigInt::absToString() const{
+std::string BigInt::absToString() const {
     std::stringstream numbers;
     numbers << this->nums.back();
 

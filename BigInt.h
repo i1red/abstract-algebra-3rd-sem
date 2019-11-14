@@ -20,10 +20,10 @@ public:
     bool operator<(const BigInt&) const;
     bool operator>=(const BigInt&) const;
     bool operator<=(const BigInt&) const;
-    BigInt operator+(const BigInt&);
-    BigInt operator-(const BigInt&);
-    BigInt operator*(const BigInt&);
-    BigInt mod(const BigInt&);
+    BigInt operator+(const BigInt&) const;
+    BigInt operator-(const BigInt&) const;
+    BigInt operator*(const BigInt&) const;
+    BigInt mod(const BigInt&) const;
     friend std::ostream& operator<<(std::ostream& os, const BigInt& bigInt);
 
 private:
