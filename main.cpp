@@ -28,33 +28,41 @@ vector<string> split(const string& s, char delimiter) {
 }
 
 void genTest() {
+    //test.txt was generated randomly using Python script
+
     ifstream fin;
-    fin.open("/home/ivan/PycharmProjects/big_int_test_gen/test.txt");
+    fin.open("../tests/test.txt");
 
     ofstream fout;
-    fout.open("test_res.txt", ios_base::out);
+    fout.open("../tests/test_res.txt", ios_base::out);
 
     string tmp;
     size_t counter = 1;
 
     while (!fin.eof()) {
         getline(fin, tmp);
+
+        if (tmp.empty()) {
+            break;
+        }
+
         vector<string> nums = split(tmp, ' ');
         auto a = BigInt(nums[0]), b = BigInt(nums[1]);
 
         fout << "Test #" << counter << endl;
 
         fout << "BigInt a: " << a << endl;
-        cout << nums[0] << endl;
-        cout << a << endl;
-        cout << endl;
         fout<<  "Number:   " << nums[0] << endl;
         fout << "BigInt b: " << b << endl;
         fout << "Number:   " << nums[1] << endl;
-        fout << "a + b: " << a + b << endl;
-        fout << "Sum:   " << nums[2] << endl;
-        fout << "a - b: " << a - b <<endl;
-        fout << "Dif:   " << nums[3] << endl;
+        fout << "a + b:    " << a + b << endl;
+        fout << "Sum:      " << nums[2] << endl;
+        fout << "a - b:    " << a - b <<endl;
+        fout << "Dif:      " << nums[3] << endl;
+        fout << "a * b     " << a * b << endl;
+        fout << "Prod:     " << nums[4] << endl;
+        fout << "a.mod(b): " << a.mod(b) << endl;
+        fout << "Mod:      " << nums[5] << endl;
 
         fout << endl;
 
@@ -66,9 +74,7 @@ void genTest() {
 
 int main() {
 
-
-    BigInt a("7288813678222062832382893230000000123232424243223211112"), b("-2");
-    cout << a.mod(b) << endl;
+    genTest();
 
     return 0;
 }
