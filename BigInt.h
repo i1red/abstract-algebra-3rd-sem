@@ -6,6 +6,7 @@
 #include <string>
 #include <cmath>
 #include <iomanip>
+#include <utility>
 
 
 class BigInt {
@@ -23,6 +24,7 @@ public:
     BigInt operator+(const BigInt&) const;
     BigInt operator-(const BigInt&) const;
     BigInt operator*(const BigInt&) const;
+    BigInt operator/(const BigInt&) const;
     BigInt mod(const BigInt&) const;
     friend std::ostream& operator<<(std::ostream& os, const BigInt& bigInt);
 
@@ -30,8 +32,8 @@ private:
     BigInt add(const BigInt&) const;
     BigInt subtract(const BigInt&) const;
     BigInt multiplication(const BigInt&) const;
-    BigInt modPositive(const BigInt&) const;
-    BigInt fillToFit(const BigInt&) const;
+    std::pair<BigInt, BigInt> absDivide(const BigInt&) const;
+    std::pair<BigInt, BigInt> absFillToFit(const BigInt &other) const;
     BigInt eqPositive(const BigInt&) const;
     int absCompareTo(const BigInt&) const;
     std::string absToString() const;

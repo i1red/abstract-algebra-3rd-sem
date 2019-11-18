@@ -2,7 +2,6 @@
 #include <fstream>
 #include <string>
 #include "BigInt.h"
-#include "ModArithmetic.h"
 
 using namespace std;
 
@@ -62,8 +61,10 @@ void genTest() {
         fout << "Dif:      " << nums[3] << endl;
         fout << "a * b     " << a * b << endl;
         fout << "Prod:     " << nums[4] << endl;
+        fout << "a / b     " << a / b << endl;
+        fout << "Div:      " << nums[5] << endl;
         fout << "a.mod(b): " << a.mod(b) << endl;
-        fout << "Mod:      " << nums[5] << endl;
+        fout << "Mod:      " << nums[6] << endl;
 
         fout << endl;
 
@@ -74,16 +75,7 @@ void genTest() {
 }
 
 int main() {
-    auto group = ModArithmetic(BigInt("43423112121212912108376182713918"));
-
-    cout << group.add(BigInt("127623232832763253627323299999999993"),
-                      BigInt("338733437232763367362323232325362320003288433")) << endl;
-
-    cout << group.subtract(BigInt("2354954634654243235"),
-                           BigInt("99999999999999999999999999999999999999")) << endl;
-
-    cout << group.multiply(BigInt("1212334400000002323"), BigInt("-9939237217212323232121")) << endl;
-
+    genTest();
 
     return 0;
 }

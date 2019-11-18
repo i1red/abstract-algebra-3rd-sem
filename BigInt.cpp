@@ -79,7 +79,7 @@ BigInt BigInt::operator+(const BigInt& other) const {
 
     if (this->nonNegative) {
         if (other.nonNegative) {
-            res = this->add(other);
+            res = this->absCompareTo(other) >= 0 ? this->add(other) : other.add(*this);
         }
 
         else {
@@ -162,6 +162,14 @@ BigInt BigInt::operator*(const BigInt &other) const {
 }
 
 
+BigInt BigInt::operator/(const BigInt& other) const {
+    BigInt res = this->absDivide(other).first;
+    res.nonNegative = res.nums.back() == 0 ? true : this->nonNegative == other.nonNegative;
+
+    return res;
+}
+
+
 BigInt BigInt::mod(const BigInt& other) const {
     BigInt res = *this, div = other;
 
@@ -175,7 +183,7 @@ BigInt BigInt::mod(const BigInt& other) const {
     }
 
     if (res >= div) {
-        res = res.modPositive(div);
+        res = res.absDivide(div).second;
     }
 
     res.nonNegative = res.nums.back() == 0 ? true : other.nonNegative;
@@ -274,29 +282,34 @@ BigInt BigInt::multiplication(const BigInt &other) const {
 }
 
 
-BigInt BigInt::modPositive(const BigInt& other) const{
-    BigInt res = *this, tmp = other.fillToFit(res), tmpRes = res - tmp;
+std::pair<BigInt, BigInt> BigInt::absDivide(const BigInt& other) const{
+    auto fillOther = other.absFillToFit(*this);
+    BigInt modRes = *this, tmp = fillOther.first, increment = fillOther.second, divRes("0");
+    modRes.nonNegative = tmp.nonNegative = true;
+    BigInt tmpRes = modRes - tmp;
 
-    while (res >= tmp) {
-        res = tmpRes;
+    while (modRes >= tmp) {
+        modRes = tmpRes;
+        divRes = divRes + increment;
 
-        if (res < tmp) {
+        if (modRes < tmp) {
             if (other == tmp) {
                 break;
             }
-            tmp = other.fillToFit(res);
+            fillOther = other.absFillToFit(modRes);
+            tmp = fillOther.first, increment = fillOther.second;
         }
 
-        tmpRes = res - tmp;
+        tmpRes = modRes - tmp;
     }
 
-    return res;
+    return std::make_pair(divRes, modRes);
 }
 
 
-BigInt BigInt::fillToFit(const BigInt& other) const {
+std::pair<BigInt, BigInt> BigInt::absFillToFit(const BigInt& other) const {
     std::string thisStr = this->absToString(), otherStr = other.absToString();
-    int zeroCount = (int)otherStr.size() - (int)thisStr.size();
+    size_t zeroCount = otherStr.size() - thisStr.size();
 
     for (size_t i = 0; i < thisStr.size(); ++i) {
         if (thisStr[i] > otherStr[i]) {
@@ -309,14 +322,14 @@ BigInt BigInt::fillToFit(const BigInt& other) const {
     }
 
     std::stringstream zeros;
-    zeros << std::setfill('0') << std::setw(zeroCount) << "";
+    zeros << std::setfill('0') << std::setw((int)zeroCount) << "";
 
-    return BigInt(thisStr + zeros.str());
+    return std::make_pair(BigInt(thisStr + zeros.str()), BigInt("1" + zeros.str()));
 }
 
 
 BigInt BigInt::eqPositive(const BigInt &other) const {
-    BigInt res = *this, tmp = other.fillToFit(res);
+    BigInt res = *this, tmp = other.absFillToFit(res).first;
 
     while (!res.nonNegative) {
         res = res + tmp;
