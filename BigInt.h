@@ -25,6 +25,7 @@ public:
     BigInt operator-(const BigInt&) const;
     BigInt operator*(const BigInt&) const;
     BigInt operator/(const BigInt&) const;
+    BigInt operator%(const BigInt&) const;
     BigInt mod(const BigInt&) const;
     friend std::ostream& operator<<(std::ostream& os, const BigInt& bigInt);
 
