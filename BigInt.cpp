@@ -293,6 +293,10 @@ BigInt BigInt::multiplication(const BigInt &other) const {
 
 
 std::pair<BigInt, BigInt> BigInt::absDivide(const BigInt& other) const{
+    if (other == BigInt("0")) {
+        throw std::logic_error("Zero division error");
+    }
+
     auto fillOther = other.absFillToFit(*this);
     BigInt modRes = *this, tmp = fillOther.first, increment = fillOther.second, divRes("0");
     modRes.nonNegative = tmp.nonNegative = true;

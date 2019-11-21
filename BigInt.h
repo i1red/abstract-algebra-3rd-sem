@@ -7,7 +7,7 @@
 #include <cmath>
 #include <iomanip>
 #include <utility>
-
+#include <stdexcept>
 
 class BigInt {
     std::vector<int> nums;
