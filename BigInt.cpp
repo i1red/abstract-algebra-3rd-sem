@@ -170,6 +170,14 @@ BigInt BigInt::operator/(const BigInt& other) const {
 }
 
 
+BigInt BigInt::operator%(const BigInt& other) const {
+    BigInt res = this->absDivide(other).second;
+    res.nonNegative = res.nums.back() == 0 ? true : this->nonNegative == other.nonNegative;
+
+    return res;
+}
+
+
 BigInt BigInt::mod(const BigInt& other) const {
     BigInt res = *this, div = other;
 
