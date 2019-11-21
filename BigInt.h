@@ -17,6 +17,7 @@ class BigInt {
 public:
     explicit BigInt(const std::string& init = "0");
     bool operator==(const BigInt&) const;
+    bool operator!=(const BigInt&) const;
     bool operator>(const BigInt&) const;
     bool operator<(const BigInt&) const;
     bool operator>=(const BigInt&) const;
