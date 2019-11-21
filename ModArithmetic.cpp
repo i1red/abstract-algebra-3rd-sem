@@ -25,7 +25,7 @@ BigInt ModArithmetic::multiply(const BigInt& lt, const BigInt& rt) {
 
 
 BigInt ModArithmetic::divide(const BigInt& lt, const BigInt& rt) {
-    return BigInt();
+    return this->multiply(lt, this->inverseElement(rt));
 }
 
 
