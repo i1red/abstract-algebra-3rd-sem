@@ -13,6 +13,7 @@ public:
     BigInt multiply(const BigInt&, const BigInt&);
     BigInt divide(const BigInt&, const BigInt&);
     BigInt inverseElement(const BigInt&);
+    BigInt gcdex(const BigInt&, const BigInt&, BigInt&, BigInt&);
 };
 
 

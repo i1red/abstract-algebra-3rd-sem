@@ -170,6 +170,14 @@ BigInt BigInt::operator/(const BigInt& other) const {
 }
 
 
+BigInt BigInt::operator%(const BigInt& other) const {
+    BigInt res = this->absDivide(other).second;
+    res.nonNegative = res.nums.back() == 0 ? true : this->nonNegative == other.nonNegative;
+
+    return res;
+}
+
+
 BigInt BigInt::mod(const BigInt& other) const {
     BigInt res = *this, div = other;
 
@@ -296,6 +304,7 @@ std::pair<BigInt, BigInt> BigInt::absDivide(const BigInt& other) const{
             if (other == tmp) {
                 break;
             }
+
             fillOther = other.absFillToFit(modRes);
             tmp = fillOther.first, increment = fillOther.second;
         }
@@ -316,6 +325,7 @@ std::pair<BigInt, BigInt> BigInt::absFillToFit(const BigInt& other) const {
             zeroCount -= 1;
             break;
         }
+
         else if (thisStr[i] < otherStr[i]) {
             break;
         }
