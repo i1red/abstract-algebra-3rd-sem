@@ -84,7 +84,7 @@ BigInt BigInt::operator+(const BigInt& other) const {
 
     if (this->nonNegative) {
         if (other.nonNegative) {
-            res = this->absCompareTo(other) >= 0 ? this->add(other) : other.add(*this);
+            res = this->add(other);
         }
 
         else {
@@ -224,6 +224,10 @@ std::ostream& operator<<(std::ostream& os, const BigInt& bigInt ) {
 
 //adds two positive integers, other <= this
 BigInt BigInt::add(const BigInt& other) const{
+    if(other.nums.size() > this->nums.size()) {
+        return other.add(*this);
+    }
+
     auto res = BigInt();
 
     res.nums.clear();
