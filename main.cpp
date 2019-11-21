@@ -63,19 +63,50 @@ void testBigInt(const string& testFile, const string& resFile) {
 
         fout << "BigInt a: " << a << endl;
         fout<<  "Number:   " << nums[0] << endl;
+
         fout << "BigInt b: " << b << endl;
         fout << "Number:   " << nums[1] << endl;
-        fout << "a + b:    " << a + b << endl;
+
+        BigInt sum = a + b;
+        if (sum != BigInt(nums[2])) {
+            cout << "FAILED SUM" << a << " " << b << endl;
+        }
+        fout << "a + b:    " << sum << endl;
         fout << "Sum:      " << nums[2] << endl;
-        fout << "a - b:    " << a - b <<endl;
+
+        BigInt dif = a - b;
+        if (dif != BigInt(nums[3])) {
+            cout << "FAILED DIF" << a << " " << b << endl;
+        }
+        fout << "a - b:    " << dif << endl;
         fout << "Dif:      " << nums[3] << endl;
-        fout << "a * b     " << a * b << endl;
+
+        BigInt prod = a * b;
+        if (prod != BigInt(nums[4])) {
+            cout << "FAILED PROD" << a << " " << b << endl;
+        }
+        fout << "a * b     " << prod << endl;
         fout << "Prod:     " << nums[4] << endl;
-        fout << "a / b     " << a / b << endl;
+
+        BigInt div = a / b;
+        if (div != BigInt(nums[5])) {
+            cout << "FAILED DIV" << a << " " << b << endl;
+        }
+        fout << "a / b     " << div << endl;
         fout << "Div:      " << nums[5] << endl;
-        fout << "a % b     " << a % b << endl;
+
+        BigInt rest = a % b;
+        if (rest != BigInt(nums[6])) {
+            cout << "FAILED REST" << a << " " << b << endl;
+        }
+        fout << "a % b     " << rest << endl;
         fout << "Rest:     " << nums[6] << endl;
-        fout << "a.mod(b): " << a.mod(b) << endl;
+
+        BigInt mod = a.mod(b);
+        if (mod != BigInt(nums[7])) {
+            cout << "FAILED MOD" << a << " " << b << endl;
+        }
+        fout << "a.mod(b): " << mod << endl;
         fout << "Mod:      " << nums[7] << endl;
 
         fout << endl;
@@ -106,15 +137,42 @@ BigInt genRandomBigInt() {
 }
 
 
-int main() {
+void testModArithmetic() {
+    BigInt n("1000000007");
+    ModArithmetic ring(n);
 
-    ModArithmetic ring(genRandomBigInt());
+    for (size_t i = 0; i < 25; ++i) {
+        BigInt testInt = genRandomBigInt();
+        while(testInt.mod(n) == BigInt("0")) {
+            testInt = genRandomBigInt();
+        }
 
-    for(size_t i = 0; i < 25; ++i) {
-        BigInt randInt = genRandomBigInt();
+        cout << endl;
+        cout << testInt << endl;
 
-        cout << "Should be 1. Result: " << ring.divide(randInt, randInt) << endl;
+        try {
+            cout << ring.divide(testInt, testInt) << endl;
+        }
+        catch (logic_error& ex){
+            cout << ex.what() << endl;
+            BigInt testInt2 = testInt.mod(n);
+            BigInt inverse = ring.inverseElement(testInt2);
+
+            cout << testInt2 << endl;
+            cout << ring.multiply(testInt, inverse) << endl;
+        }
     }
+}
+
+
+int main() {
+    string testFile = "test.txt";
+    string testResFile = "test_res.txt";
+
+    //genTestFile(1000, testFile);
+    //testBigInt(testFile, testResFile);
+
+    testModArithmetic();
 
     return 0;
 }
