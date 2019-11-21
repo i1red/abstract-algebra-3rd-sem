@@ -171,8 +171,10 @@ BigInt BigInt::operator/(const BigInt& other) const {
 
 
 BigInt BigInt::operator%(const BigInt& other) const {
-    BigInt res = this->absDivide(other).second;
-    res.nonNegative = res.nums.back() == 0 ? true : this->nonNegative == other.nonNegative;
+    auto absDiv = this->absDivide(other);
+
+    BigInt res = absDiv.second;
+    res.nonNegative = res.nums.back() == 0 ? true : this->nonNegative;
 
     return res;
 }
