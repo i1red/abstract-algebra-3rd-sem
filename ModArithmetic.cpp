@@ -62,11 +62,12 @@ BigInt ModArithmetic::gcdex(const BigInt &lt, const BigInt &rt, BigInt &x, BigIn
         return rt;
     }
 
-    BigInt x1, y1;
+    BigInt x1, y1, mod_lt;
 
-    BigInt d = gcdex(rt % lt, lt, x1, y1);
+    mod_lt = lt.mod(n_);
+    BigInt d = gcdex(rt % mod_lt, mod_lt, x1, y1);
 
-    x = y1 - (rt / lt) * x1;
+    x = y1 - (rt / mod_lt) * x1;
     y = x1;
 
     return d;
