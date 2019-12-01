@@ -3,4 +3,12 @@ project(abstract_algebra)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(abstract_algebra main.cpp BigInt.cpp BigInt.h ModArithmetic.cpp ModArithmetic.h)
+include_directories(
+        ${PROJECT_SOURCE_DIR}
+        ${BigInt}
+        ${ModArithmetic}
+        ${MontgomeryReduction}
+)
+
+add_executable(abstract_algebra main.cpp BigInt/BigInt.cpp BigInt/BigInt.h
+        ModArithmetic/ModArithmetic.h MontgomeryReduction/MontgomeryReducer.h MontgomeryReduction/MontgomeryReducer.cpp)
