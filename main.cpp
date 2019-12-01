@@ -2,8 +2,9 @@
 #include <fstream>
 #include <string>
 #include <random>
-#include "BigInt.h"
-#include "ModArithmetic.h"
+#include "BigInt/BigInt.h"
+#include "ModArithmetic/ModArithmetic.h"
+#include "MontgomeryReduction/MontgomeryReducer.h"
 
 using namespace std;
 
@@ -32,19 +33,23 @@ vector<string> split(const string& s, char delimiter) {
 
 void genTestFile(int numberOfTests, const string& filename) {
     //to run this function efficiently you need to have python3 installed on your computer
-    string command = "python3 ../testsBigInt/big_int_test_gen.py -t " +
-                      to_string(numberOfTests) + " -f ../testsBigInt/" + filename;
+    string testFolder = "../BigInt/testsBigInt/";
+
+    string command = "python3 " + testFolder + "big_int_test_gen.py -t " +
+                      to_string(numberOfTests) + " -f " + testFolder + filename;
 
     system(command.c_str());
 }
 
 
 void testBigInt(const string& testFile, const string& resFile) {
+    string testFolder = "../BigInt/testsBigInt/";
+
     ifstream fin;
-    fin.open("../testsBigInt/" + testFile);
+    fin.open(testFolder + testFile);
 
     ofstream fout;
-    fout.open("../testsBigInt/" + resFile, ios_base::out);
+    fout.open(testFolder + resFile, ios_base::out);
 
     string tmp;
     size_t counter = 1;
@@ -138,8 +143,8 @@ BigInt genRandomBigInt() {
 
 
 void testModArithmetic() {
-    BigInt n("1000000007");
-    ModArithmetic ring(n);
+    BigInt n("1000000008");
+    ModArithmetic<BigInt> ring(n);
 
     for (size_t i = 0; i < 25; ++i) {
         BigInt testInt = genRandomBigInt();
@@ -151,36 +156,53 @@ void testModArithmetic() {
         cout << testInt << endl;
 
         try {
-            cout << ring.divide(testInt, testInt) << endl;
+            cout << ring.ringDivide(testInt, testInt) << endl;
         }
         catch (logic_error& ex){
             cout << ex.what() << endl;
             BigInt testInt2 = testInt.mod(n);
-            BigInt inverse = ring.inverseElement(testInt2);
+            //BigInt inverse = ring.inverseElement(testInt2);
 
             cout << testInt2 << endl;
-            cout << ring.multiply(testInt, inverse) << endl;
+            //cout << ring.multiply(testInt, inverse) << endl;
         }
     }
 }
+
+
 
 
 int main() {
     string testFile = "test.txt";
     string testResFile = "test_res.txt";
 
+    //cout << mod(-237262635232323, (long)21) << endl;
+
     //genTestFile(1000, testFile);
     //testBigInt(testFile, testResFile);
 
-    testModArithmetic();
 
+    //testModArithmetic();
+
+//    BigInt bigInt("777777777777430000000000000000077777777779999999999000000054376576576568331"); //test
+//    BigInt x("276437546116757654646575675656756756756756756456546456");
+//    BigInt y("13893334345345311111111111111111111111111111114543545400000000054353426654627");
+
+//    BigInt bigInt("142341"); //another test
+//    BigInt x("354654635");
+//    BigInt y("413");
+
+//    MontgomeryReducer montgomeryReducer(bigInt);
+//    cout << montgomeryReducer.getModulus() << " | " << montgomeryReducer.getReducer() << endl;
+//    cout << montgomeryReducer.convertOut(montgomeryReducer.multiply(montgomeryReducer.convertIn(x), montgomeryReducer.convertIn(y))) << endl;
+//    cout << mod((x * y), bigInt) << endl;
+
+    MontgomeryReducer montgomeryReducer(142341);
+    cout << montgomeryReducer.convertOut(montgomeryReducer.multiply(montgomeryReducer.convertIn(354654635), montgomeryReducer.convertIn(413))) << endl;
+    long long b = 354654635;
+    long long c = 413;
+    long long d = 142341;
+    long long a = mod(b * c, d);
+    cout << a << endl;
     return 0;
 }
-
-
-
-
-
-
-
-
