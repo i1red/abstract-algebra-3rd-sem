@@ -5,9 +5,9 @@
 #include "BigInt/BigInt.h"
 #include "ModArithmetic/ModArithmetic.h"
 #include "MontgomeryReduction/MontgomeryReducer.h"
-#include "ElipticCurves/"
-#include ""
-#include ""
+#include "ElipticCurves/Eliptic.cpp"
+#include "ElipticCurves/PT.h"
+#include "ElipticCurves/Eliptic.h"
 using namespace std;
 
 vector<string> split(const string& s, char delimiter) {
