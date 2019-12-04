@@ -8,7 +8,7 @@ std::vector<BigInt> generator(std::vector<BigInt> G)
 
     long int IntN=G.size();
     BigInt N=getBigInt(IntN);
-    ModArithmetic M(N);
+    ModArithmetic<BigInt> M(N);
 
     factorization f=factorize_naive(N);
     long int k=f.p.size();
@@ -21,11 +21,11 @@ std::vector<BigInt> generator(std::vector<BigInt> G)
         {
             a=Big0;
             step=N/f.p[j];
-            y=M.multiply(y,Big0);
+            y=M.multiply(y,Big0,N);
             while(y<step)
             {
-                a = M.add(a, G[i]);
-                y=M.add(y,Big1);
+                a = M.add(a, G[i],N);
+                y=M.add(y,Big1,N);
             }
             if(a==Big0)
                 gg=1;
