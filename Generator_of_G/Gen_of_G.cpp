@@ -39,10 +39,7 @@ std::vector<BigInt> generator(std::vector<BigInt> G)
 
 BigInt getBigInt(int a)
 {
-    char c[20];
-    _itoa(a,c, 10);
-    std::string s=c;
-    return BigInt(s);
+    return BigInt(std::to_string(a));
 }
 
 factorization factorize_naive(BigInt divided) {
