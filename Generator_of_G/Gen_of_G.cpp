@@ -21,11 +21,11 @@ std::vector<BigInt> generator(std::vector<BigInt> G)
         {
             a=Big0;
             step=N/f.p[j];
-            y=M.multiply(y,Big0,N);
+            y=M.ringMultiply(y,Big0);
             while(y<step)
             {
-                a = M.add(a, G[i],N);
-                y=M.add(y,Big1,N);
+                a = M.ringAdd(a, G[i]);
+                y=M.ringAdd(y,Big1);
             }
             if(a==Big0)
                 gg=1;
