@@ -1,6 +1,6 @@
 #pragma once
-#include "BigInt.h"
-#include "ModArithmetic.h"
+#include "BigInt/BigInt.h"
+#include "ModArithmetic/ModArithmetic.h"
 
 class PT {
 private:
