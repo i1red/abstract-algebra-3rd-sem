@@ -1,7 +1,7 @@
 #pragma once
 #include "PT.h"
-#include "BigInt.h"
-#include "ModArithmetic.h"
+#include "BigInt/BigInt.h"
+#include "ModArithmetic/ModArithmetic.h"
 #include <limits>
 #include <iostream>
 using std::cout;
