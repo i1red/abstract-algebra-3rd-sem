@@ -2,7 +2,7 @@
 #include "BigInt/BigInt.h"
 #include "ModArithmetic/ModArithmetic.h"
 #include <iostream>
-ElipticCurve::ElipticCurve(BigInt a, BigInt b, BigInt mod) :a(a), b(b), mod(mod) {
+inline ElipticCurve::ElipticCurve(BigInt a, BigInt b, BigInt mod) :a(a), b(b), mod(mod) {
 	BigInt discriminant = BigInt("16") + (BigInt("4") * a * a * a + BigInt("27") * b * b);
 
 	if (discriminant == BigInt("0")) {
@@ -11,21 +11,21 @@ ElipticCurve::ElipticCurve(BigInt a, BigInt b, BigInt mod) :a(a), b(b), mod(mod)
 
 };
 
-BigInt ElipticCurve:: get_A() {
+inline BigInt ElipticCurve:: get_A() {
 	return a;
 }
-BigInt ElipticCurve::get_B() {
+inline BigInt ElipticCurve::get_B() {
 	return b ;
 }
-BigInt ElipticCurve::get_Mod() {
+inline BigInt ElipticCurve::get_Mod() {
 	return mod;
 }
-PT ElipticCurve::ReceivePT(PT temp) {
+inline PT ElipticCurve::ReceivePT(PT temp) {
 	BigInt x = temp.GetX();
 	BigInt y = temp.GetY();
 	return PT(x, y);
 }
-bool ElipticCurve::isPointOnCurve(PT first) {
+inline bool ElipticCurve::isPointOnCurve(PT first) {
 	first = ReceivePT(first);
 	BigInt temp = first.GetX() * first.GetY();
 	/*if (first.GetY() * first.GetY() != first.GetX() * first.GetX() * first.GetX() + a * first.GetX() + b)
@@ -36,7 +36,7 @@ bool ElipticCurve::isPointOnCurve(PT first) {
 	return true;
 }
 
-PT ElipticCurve::reversePT(PT temp) {
+inline PT ElipticCurve::reversePT(PT temp) {
 	temp = ReceivePT(temp);
 	if (!isPointOnCurve(temp)) {
 		cout << "Some of the points are not on the curve" << endl;
@@ -49,7 +49,7 @@ PT ElipticCurve::reversePT(PT temp) {
 
 
 
-PT ElipticCurve::AddPT(PT A, PT B)
+inline PT ElipticCurve::AddPT(PT A, PT B)
 {
 	A = ReceivePT(A);
 	B = ReceivePT(B);
