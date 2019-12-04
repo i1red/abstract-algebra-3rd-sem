@@ -4,7 +4,7 @@ void MontgomeryReducer::setReducer() {
     BigInt temporary = BigInt::ONE;
 
     while (temporary < this -> modulus) {
-        temporary = temporary * BigInt("2");
+        temporary = temporary * BigInt(2);
     }
 
     this -> reducer = temporary;
@@ -73,9 +73,9 @@ std::vector<bool> MontgomeryReducer::getBinary(const BigInt &x) {
     std::vector<bool> binary;
 
     while(temp != BigInt::ZERO) {
-        BigInt two("2");
+        BigInt two(2);
 
-        binary.insert(binary.begin(), temp % two == BigInt::ZERO ? 0 : 1);
+        binary.insert(binary.end(), temp % two == BigInt::ZERO ? 0 : 1);
         temp = temp / two;
     }
 
