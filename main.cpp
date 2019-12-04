@@ -204,5 +204,38 @@ int main() {
     long long d = 142341;
     long long a = mod(b * c, d);
     cout << a << endl;
+
+
+//Eliptic Curves Adding 2 points
+    
+    PT A = PT(BigInt("3"), BigInt("10"));
+    PT B = PT(BigInt("9"), BigInt("7"));
+    ElipticCurve curve = ElipticCurve(BigInt("1"), BigInt("1"), BigInt("23"));
+    PT total = curve.AddPT(A,B);
+
+    cout << "Total of points: A and B" << endl;
+    cout << total.GetX() << " and " << total.GetY() << endl;
+
+    PT negative = curve.reversePT(A);
+    cout << "receive -A" << endl;
+    cout << negative.GetX() << " and " << negative.GetY();
+
+
+    PT C = PT(BigInt("34585894"), BigInt("1054456456"));
+    PT D = PT(BigInt("9456546456"), BigInt("546564567"));
+    ElipticCurve curve2 = ElipticCurve(BigInt("1"), BigInt("1"), BigInt("123126731231231"));
+    PT total2 = curve.AddPT(C,D);
+
+    cout << "Total of points: A and B" << endl;
+    cout << total2.GetX() << " and " << total2.GetY() << endl;
+
+    PT negative2 = curve2.reversePT(C);
+    cout << "receive -A" << endl;
+    cout << negative2.GetX() << " and " << negative2.GetY();
+
+
+
+
+
     return 0;
 }
