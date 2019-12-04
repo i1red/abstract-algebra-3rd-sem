@@ -1,5 +1,6 @@
 #include "Eliptic.h"
-#include "ModArithmetic.h"
+#include "BigInt/BigInt.h"
+#include "ModArithmetic/ModArithmetic.h"
 #include <iostream>
 ElipticCurve::ElipticCurve(BigInt a, BigInt b, BigInt mod) :a(a), b(b), mod(mod) {
 	BigInt discriminant = BigInt("16") + (BigInt("4") * a * a * a + BigInt("27") * b * b);
