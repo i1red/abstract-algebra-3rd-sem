@@ -215,7 +215,19 @@ BigInt BigInt::operator%(const BigInt& other) const {
 
     return res;
 }
-
+BigInt BigInt::sqrt_bigint() {
+	BigInt l = 0, r = *this, mid;
+	while (l <= r) {
+		mid = (l + r) / 2;
+		if (mid * mid <= *this && (*this < (mid + 1) * (mid + 1))) return mid;
+		if (mid * mid > * this) {
+			r = mid - 1;
+		}
+		else {
+			l = mid + 1;
+		}
+	}
+}
 BigInt BigInt::mod(const BigInt& other) const {
     BigInt res = *this, div = other;
 

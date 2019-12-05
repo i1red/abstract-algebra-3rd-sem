@@ -94,7 +94,7 @@ inline PT ElipticCurve::AddPT(PT A, PT B)
 BigInt ElipticCurve::BabyGiantStep() {
 	P = 1;
 	PT Q = fastpow(P, mod + 1);
-	BigInt m = sqrt1(sqrt1(mod)), j, k;
+	BigInt m = (mod.sqrt_bigint()).sqrt_bigint()+1, j, k;
 	BigInt jP = new BigInt[m];
 	for (BigInt i = 0; i < m; i++)
 		jP = fastpow(P, i);
@@ -132,8 +132,8 @@ BigInt lcm(BigInt a, BigInt b) {
 }
 BigInt ElipticCurve::BabyGiantStepGroup() {
 	BigInt order, right, left, temp_lcm = 1;
-	left = mod + 1 - 2 * sqrt(mod);
-	right = mod + 1 + 2 * sqrt(mod);
+	left = mod + 1 - 2 * mod.sqrt_bigint();
+	right = mod + 1 + 2 * mod.sqrt_bigint();
 	while (temp_lcm <= left) {
 		order = BabyGiantStep();
 		points_order.push_back(order);
