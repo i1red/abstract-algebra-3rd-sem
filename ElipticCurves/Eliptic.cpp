@@ -92,7 +92,7 @@ inline PT ElipticCurve::AddPT(PT A, PT B)
     return PT(x, z);
 }
 BigInt ElipticCurve::BabyGiantStep() {
-	P = 1;
+	PT P(35,13);
 	PT Q = fastpow(P, mod + 1);
 	BigInt m = (mod.sqrt_bigint()).sqrt_bigint()+1, j, k;
 	BigInt jP = new BigInt[m];
@@ -111,7 +111,7 @@ BigInt ElipticCurve::BabyGiantStep() {
 			}
 		}
 	}
-	if (pow1(P, mod + 1 + 2 * m * k + j).isInfinitePoint()) {
+	if (fastpow(P, mod + 1 + 2 * m * k + j).isInfinitePoint()) {
 		BigInt M = mod + 1 + 2 * m * k + j;
 	}
 	std::vector<BigInt> primeFactors = PollardRecursiv(M);
