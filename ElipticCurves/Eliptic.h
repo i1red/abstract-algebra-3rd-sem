@@ -23,7 +23,9 @@ public:
 	bool isPointOnCurve(PT a);
 	PT reversePT(PT a);
     PT ReceivePT(PT temp);
-
+	PT fastpow(PT A, BigInt k);
+	BigInt BabyGiantStepGroup();
+	BigInt BabyGiantStep();
 	PT AddPT(PT a, PT b);
 
 
